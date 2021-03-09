@@ -53,7 +53,7 @@ class LList(object):
         Return:
             :return True if the list has no data, or False otherwise
         """
-        return None
+        return self._size == 0
 
     def size(self):
         """
@@ -62,7 +62,7 @@ class LList(object):
         Return:
             :return The number of data values in the list
         """
-        return None
+        return self._size
 
     def prepend(self, val):
         """
@@ -77,7 +77,9 @@ class LList(object):
         Return:
             :return None
         """
-        pass
+        new_mode = node(val, self._head)
+        self._head = new_mode
+        self._size += 1
 
     def append(self, val):
         """
@@ -91,7 +93,15 @@ class LList(object):
         Return:
             :return None
         """
-        pass
+        assert not self.is_empty()
+
+        prev_first_node = self._head
+        result = prev_first_node.get_data()
+        self._head = prev_first_node.get_next()
+        self._size -= 1
+        if self._size == 0:
+            self._tail = None
+        return result
 
 
     def get_index_of_value(self, val):
@@ -106,7 +116,8 @@ class LList(object):
             :return True, idx if the val appears in self
             :return False, None if the vale does not appear in self
         """
-        pass
+
+        return (False, None)
 
     def remove_from_front(self):
         """
