@@ -77,9 +77,11 @@ class LList(object):
         Return:
             :return None
         """
-        new_mode = node(val, self._head)
-        self._head = new_mode
+        new_node = node(val, self._head)
+        self._head = new_node
         self._size += 1
+        if self._size == 1:
+            self._tail = self._head
 
     def append(self, val):
         """
@@ -93,16 +95,18 @@ class LList(object):
         Return:
             :return None
         """
-        assert not self.is_empty()
+        new_node = node(val, None)
 
-        prev_first_node = self._head
-        result = prev_first_node.get_data()
-        self._head = prev_first_node.get_next()
-        self._size -= 1
-        if self._size == 0:
-            self._tail = None
-        return result
+        if self.is_empty():
+            self._head = new_node
+            self._tail = new_node
+        else:
+            prev_last_node = self._tail
+            prev_last_node.next = new_node
+            self._tail = new_node
 
+        self._size += 1
+        return None
 
     def get_index_of_value(self, val):
         """
@@ -116,8 +120,14 @@ class LList(object):
             :return True, idx if the val appears in self
             :return False, None if the vale does not appear in self
         """
-
-        return (False, None)
+        # walk along the chain
+        current = self._head
+        while current is not None:
+            current = current.next
+            if val == current:
+                return True
+            else:
+                return False
 
     def remove_from_front(self):
         """
@@ -172,4 +182,3 @@ class LList(object):
             :return True if the index was valid, False otherwise
         """
         pass
-
