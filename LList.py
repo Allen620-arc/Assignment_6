@@ -141,7 +141,14 @@ class LList(object):
             :return The pair (True, value) if self is not empty
             :return The pair (False, None) if self is empty
         """
-        pass
+        prev_first_node = self._head
+        value = prev_first_node.data
+        self._head = prev_first_node.next
+        self._size -= 1
+        if self._size == 0:
+            self._tail = None
+            return True, value
+        return False, None
 
     def remove_from_back(self):
         """
@@ -190,4 +197,12 @@ class LList(object):
         Return:
             :return True if the index was valid, False otherwise
         """
-        pass
+        current = self._head
+        idx_chain = 0
+        while current is not None:
+            if idx_chain == idx:
+                current.data = val
+                return True
+            current = current.next
+            idx_chain += 1
+        return False
