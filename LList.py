@@ -122,12 +122,13 @@ class LList(object):
         """
         # walk along the chain
         current = self._head
+        idx = 0
         while current is not None:
+            if val == current.data:
+                return True, idx
             current = current.next
-            if val == current:
-                return True
-            else:
-                return False
+            idx += 1
+        return False, None
 
     def remove_from_front(self):
         """
@@ -167,7 +168,15 @@ class LList(object):
             :return (True, val) if val is stored at index idx and idx is valid
             :return (False, None) if the idx is not valid for the list
         """
-        pass
+        current = self._head
+        idx_chain = 0
+        while current is not None:
+            if idx == idx_chain:
+                val = current.data
+                return True, val
+            current = current.next
+            idx_chain += 1
+        return False, None
 
     def set_data(self, idx, val):
         """
