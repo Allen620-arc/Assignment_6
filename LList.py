@@ -141,14 +141,15 @@ class LList(object):
             :return The pair (True, value) if self is not empty
             :return The pair (False, None) if self is empty
         """
-        prev_first_node = self._head
-        value = prev_first_node.data
-        self._head = prev_first_node.next
-        self._size -= 1
-        if self._size == 0:
-            self._tail = None
+        if self._size != 0:
+            prev_first_node = self._head
+            value = prev_first_node.data
+            self._head = prev_first_node.next
+            self._tail = prev_first_node.next
+            self._size -= 1
             return True, value
-        return False, None
+        if self._size == 0:
+            return False, None
 
     def remove_from_back(self):
         """
@@ -161,7 +162,34 @@ class LList(object):
             :return The pair True, value if self is not empty
             :return The pair False, None if self is empty
         """
-        pass
+        current = self._head
+        prev = None
+
+        # If the node chain is empty, return False, None.
+        if current is None:
+            return False, None
+
+        # If your node chain has a size of 1, you're going to have to set the head, tail to None, size to 0,
+        # and return True, value.
+        if self._size == 1:
+            value = self._head.data
+            self._head = None
+            self._tail = None
+            self._size = 0
+            return True, value
+
+        # If your node chain has a size greater than 1, you're going to have to find the last value, remove it,
+        # and return the value.
+        while current is not None:
+            if current.next is None:
+                prev.next = None
+                self._tail = prev
+                value = current.data
+                self._size -= 1
+                return True, value
+            prev = current
+            current = current.next
+
 
     def retrieve_data(self, idx):
         """
